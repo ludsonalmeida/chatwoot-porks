@@ -25,9 +25,7 @@ RUN NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider" \
 # ══ Stage 2: Final production image ══
 FROM chatwoot/chatwoot:develop-ce
 
-# Copy rebuilt frontend assets over the originals
-COPY --from=builder /app/public/vite /app/public/vite
-COPY --from=builder /app/public/vite-dev /app/public/vite-dev 2>/dev/null || true
-COPY --from=builder /app/public/assets /app/public/assets 2>/dev/null || true
+# Copy entire public dir with rebuilt assets
+COPY --from=builder /app/public /app/public
 
 EXPOSE 3000
