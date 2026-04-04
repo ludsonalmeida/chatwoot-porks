@@ -1,0 +1,18 @@
+# Porks custom theme — builds on top of official Chatwoot CE image
+# Only overwrites the CSS/Vue files we changed. Build time: ~30s
+FROM chatwoot/chatwoot:develop-ce
+
+# Copy our custom theme files over the originals
+COPY app/javascript/dashboard/assets/scss/_next-colors.scss /app/app/javascript/dashboard/assets/scss/_next-colors.scss
+COPY app/javascript/dashboard/assets/scss/_woot.scss /app/app/javascript/dashboard/assets/scss/_woot.scss
+COPY app/javascript/dashboard/components-next/message/bubbles/Base.vue /app/app/javascript/dashboard/components-next/message/bubbles/Base.vue
+COPY app/javascript/dashboard/components/widgets/conversation/MessagesView.vue /app/app/javascript/dashboard/components/widgets/conversation/MessagesView.vue
+COPY theme/colors.js /app/theme/colors.js
+
+# Rebuild only the frontend assets with our changes
+RUN SECRET_KEY_BASE=precompile_placeholder \
+    RAILS_ENV=production \
+    NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider" \
+    bundle exec rails assets:precompile
+
+EXPOSE 3000

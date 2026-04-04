@@ -22,15 +22,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Strip enterprise code
-        run: |
-          rm -rf enterprise
-          rm -rf spec/enterprise
-
-      - name: Set Chatwoot edition
-        run: |
-          echo -en '\nENV CW_EDITION="ce"' >> docker/Dockerfile
-
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -54,7 +45,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: docker/Dockerfile
+          file: Dockerfile.porks
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
