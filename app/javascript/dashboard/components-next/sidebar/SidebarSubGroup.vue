@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import SidebarGroupLeaf from './SidebarGroupLeaf.vue';
 import SidebarGroupSeparator from './SidebarGroupSeparator.vue';
 
@@ -13,6 +13,19 @@ const props = defineProps({
   children: { type: Array, default: undefined },
   activeChild: { type: Object, default: undefined },
 });
+
+// Local collapsed state — persisted in localStorage per label
+const storageKey = computed(() => `sidebar-subgroup-collapsed:${props.label}`);
+const isCollapsed = ref(
+  typeof localStorage !== 'undefined' && localStorage.getItem(storageKey.value) === '1'
+);
+
+const toggleCollapsed = () => {
+  isCollapsed.value = !isCollapsed.value;
+  try {
+    localStorage.setItem(storageKey.value, isCollapsed.value ? '1' : '0');
+  } catch (e) { /* ignore */ }
+};
 
 const { isAllowed } = useSidebarContext();
 const scrollableContainer = ref(null);
@@ -46,7 +59,10 @@ useEventListener(scrollableContainer, 'scroll', () => {
     v-show="isExpanded"
     :label
     :icon
+    collapsible
+    :collapsed="isCollapsed"
     class="my-1"
+    @toggle="toggleCollapsed"
   />
   <ul
     v-if="children.length"
@@ -56,14 +72,15 @@ useEventListener(scrollableContainer, 'scroll', () => {
     which is 14rem. Then we add 16px so that we have some text visible from the next item  -->
     <div
       ref="scrollableContainer"
-      class="min-w-0"
+      class="min-w-0 overflow-hidden transition-all duration-200"
       :class="{
-        'max-h-[calc(14rem+16px)] overflow-y-scroll no-scrollbar': isScrollable,
+        'max-h-[calc(14rem+16px)] overflow-y-scroll no-scrollbar': isScrollable && !isCollapsed,
+        'max-h-0': isCollapsed,
       }"
     >
       <SidebarGroupLeaf
         v-for="child in children"
-        v-show="isExpanded || activeChild?.name === child.name"
+        v-show="(isExpanded && !isCollapsed) || activeChild?.name === child.name"
         v-bind="child"
         :key="child.name"
         :active="activeChild?.name === child.name"
