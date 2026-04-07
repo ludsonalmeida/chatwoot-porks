@@ -49,6 +49,12 @@ export default {
 </script>
 
 <template>
+  <div
+    class="conversation-item-wrapper relative rounded-xl transition-all duration-150 ease-out px-1 py-0.5 hover:bg-n-blue-2/60 border-l-4 border-transparent"
+    :class="{
+      'bg-n-blue-2/80 border-l-n-brand shadow-soft': isConversationSelected(source.id),
+    }"
+  >
   <ConversationCard
     :active-label="label"
     :team-id="teamId"
@@ -71,4 +77,5 @@ export default {
     @assign-priority="assignPriority"
     @delete-conversation="deleteConversation"
   />
+  </div>
 </template>

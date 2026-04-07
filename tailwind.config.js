@@ -43,6 +43,16 @@ const tailwindConfig = {
         inter: ['Inter', ...defaultSansFonts],
         interDisplay: ['InterDisplay', ...defaultSansFonts],
       },
+      borderRadius: {
+        'md2': '10px',
+        'xl2': '14px',
+      },
+      boxShadow: {
+        'soft': '0 1px 3px rgba(15,23,42,.08), 0 1px 2px rgba(15,23,42,.04)',
+        'soft-lg': '0 4px 16px rgba(15,23,42,.1), 0 2px 4px rgba(15,23,42,.06)',
+        'brand': '0 4px 12px rgba(67,97,238,.25)',
+        'brand-lg': '0 8px 24px rgba(67,97,238,.35)',
+      },
       fontWeight: {
         420: '420',
         440: '440',

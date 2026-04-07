@@ -1467,19 +1467,15 @@ export default {
 
 <style lang="scss" scoped>
 .send-button {
-  @apply mb-0;
+  @apply mb-0 rounded-xl bg-gradient-to-b from-n-blue-9 to-n-brand text-white shadow-brand transition-all duration-150 ease-out hover:-translate-y-px hover:brightness-110;
 }
 
 .reply-box {
-  @apply relative mb-2 mx-2 border border-n-weak rounded-xl bg-n-solid-1;
+  @apply relative mb-3 mx-3 border border-n-weak rounded-xl bg-n-solid-1 shadow-soft transition-all duration-150 ease-out focus-within:border-n-brand/60 focus-within:shadow-brand;
 
   &.is-private {
     @apply bg-n-solid-amber dark:border-n-amber-3/10 border-n-amber-12/5;
   }
-}
-
-.send-button {
-  @apply mb-0;
 }
 
 .reply-box__top {

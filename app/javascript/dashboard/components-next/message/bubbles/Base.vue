@@ -20,14 +20,14 @@ const { variant, orientation, inReplyTo, shouldGroupWithNext } =
 const { t } = useI18n();
 
 const varaintBaseMap = {
-  [MESSAGE_VARIANTS.AGENT]: 'bg-[#dcf8c6] text-n-slate-12',
+  [MESSAGE_VARIANTS.AGENT]: 'bg-gradient-to-br from-[#4361EE] to-[#3651D4] text-white shadow-brand',
   [MESSAGE_VARIANTS.PRIVATE]:
-    'bg-n-solid-amber text-n-amber-12 [&_.prosemirror-mention-node]:font-semibold',
-  [MESSAGE_VARIANTS.USER]: 'bg-white text-n-slate-12 shadow-sm',
+    'bg-n-solid-amber text-n-amber-12 border border-n-amber-6 [&_.prosemirror-mention-node]:font-semibold',
+  [MESSAGE_VARIANTS.USER]: 'bg-white text-n-slate-12 shadow-soft border border-n-weak',
   [MESSAGE_VARIANTS.ACTIVITY]: 'bg-n-alpha-1 text-n-slate-11 text-sm',
-  [MESSAGE_VARIANTS.BOT]: 'bg-n-solid-iris text-n-slate-12',
-  [MESSAGE_VARIANTS.TEMPLATE]: 'bg-n-solid-iris text-n-slate-12',
-  [MESSAGE_VARIANTS.ERROR]: 'bg-n-ruby-4 text-n-ruby-12',
+  [MESSAGE_VARIANTS.BOT]: 'bg-n-solid-iris text-n-slate-12 shadow-soft',
+  [MESSAGE_VARIANTS.TEMPLATE]: 'bg-n-solid-iris text-n-slate-12 shadow-soft',
+  [MESSAGE_VARIANTS.ERROR]: 'bg-n-ruby-4 text-n-ruby-12 border border-n-ruby-6',
   [MESSAGE_VARIANTS.EMAIL]: 'w-full',
   [MESSAGE_VARIANTS.UNSUPPORTED]:
     'bg-n-solid-amber/70 border border-dashed border-n-amber-12 text-n-amber-12',
@@ -35,10 +35,10 @@ const varaintBaseMap = {
 
 const orientationMap = {
   [ORIENTATION.LEFT]:
-    'left-bubble rounded-xl ltr:rounded-bl-sm rtl:rounded-br-sm',
+    'left-bubble rounded-xl2 ltr:rounded-bl-sm rtl:rounded-br-sm',
   [ORIENTATION.RIGHT]:
-    'right-bubble rounded-xl ltr:rounded-br-sm rtl:rounded-bl-sm',
-  [ORIENTATION.CENTER]: 'rounded-md',
+    'right-bubble rounded-xl2 ltr:rounded-br-sm rtl:rounded-bl-sm',
+  [ORIENTATION.CENTER]: 'rounded-md2',
 };
 
 const flexOrientationClass = computed(() => {

@@ -55,38 +55,98 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='%23343434' stroke-width='2' stroke-dasharray='6, 8' stroke-dashoffset='0' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
-/* ══ PORKS/BOTMAKER THEME OVERRIDES ══ */
+/* ══ PORKS MODERN THEME (SaaS-style, shadcn-inspired) ══ */
 
-/* Cleaner sidebar */
+/* Cleaner sidebar with stronger border */
 .sidebar-base {
-  border-right: 1px solid #e8e8e8 !important;
+  border-right: 1.5px solid #E2E8F0 !important;
+  background: #FAFBFC !important;
 }
 
-/* WhatsApp-style chat bubbles */
+/* Modern chat bubbles - outgoing (agent) */
 .right-bubble {
-  background: #dcf8c6 !important;
-  box-shadow: 0 1px 2px rgba(0,0,0,.08);
+  background: linear-gradient(135deg, #4361EE, #3651D4) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(67, 97, 238, 0.18) !important;
+  border-radius: 14px 14px 4px 14px !important;
+}
+.right-bubble * {
+  color: #fff !important;
 }
 
+/* Modern chat bubbles - incoming (customer) */
 .left-bubble {
-  background: #ffffff !important;
-  box-shadow: 0 1px 2px rgba(0,0,0,.08);
+  background: #FFFFFF !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 14px 14px 14px 4px !important;
 }
 
 /* Conversation list - cleaner dividers */
 .conversation {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #F1F5F9 !important;
+  transition: all 0.15s ease;
+}
+.conversation:hover {
+  background: rgba(67, 97, 238, 0.04) !important;
+}
+.conversation.active {
+  background: rgba(67, 97, 238, 0.08) !important;
+  border-left: 3px solid #4361EE !important;
 }
 
-/* Unread badge - green instead of teal */
+/* Unread badge - brand blue */
 .unread-badge {
-  background: #25a543 !important;
+  background: #4361EE !important;
+  color: #fff !important;
+  font-weight: 600 !important;
 }
 
-/* Send button green */
+/* Send button blue */
 .reply-box .send-button,
 [data-key="send-button"] {
-  color: #25a543 !important;
+  color: #4361EE !important;
+}
+
+/* Smooth transitions everywhere */
+* {
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Modern input focus rings */
+input:focus, textarea:focus, select:focus {
+  outline: none !important;
+  border-color: #4361EE !important;
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.12) !important;
+}
+
+/* Modern button hover lifts */
+button:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+button:active {
+  transform: translateY(0);
+}
+
+/* Softer card shadows */
+.card, [class*="card-"] {
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+}
+
+/* Modern scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
 }
 
 @layer utilities {
