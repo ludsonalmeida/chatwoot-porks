@@ -57,17 +57,29 @@ const lastActivityAt = computed(() => {
   return timestamp ? shortTimestamp(dynamicTime(timestamp)) : '';
 });
 
-// Extrai utm_source/origem do contato ou conversa
+// Extrai utm_source/origem do contato, conversa, ou fallback para o canal da inbox
 const origemSource = computed(() => {
   const src =
-    props.contact?.additional_attributes?.utm_source ||
-    props.contact?.custom_attributes?.utm_source ||
-    props.conversation?.additional_attributes?.utm_source ||
     props.conversation?.custom_attributes?.utm_source ||
-    props.contact?.additional_attributes?.origem ||
+    props.conversation?.additional_attributes?.utm_source ||
+    props.conversation?.custom_attributes?.origem ||
+    props.contact?.custom_attributes?.utm_source ||
+    props.contact?.additional_attributes?.utm_source ||
     props.contact?.custom_attributes?.origem ||
+    props.contact?.additional_attributes?.origem ||
     null;
-  return src ? String(src).toLowerCase().trim() : null;
+  if (src) return String(src).toLowerCase().trim();
+
+  // Fallback: deduzir do canal da inbox
+  const channelType = props.stateInbox?.channelType || '';
+  if (channelType.includes('Whatsapp') || channelType.includes('whatsapp')) return 'whatsapp';
+  if (channelType.includes('FacebookPage') || channelType.includes('facebook')) return 'facebook';
+  if (channelType.includes('Instagram') || channelType.includes('instagram')) return 'instagram';
+  if (channelType.includes('Email') || channelType.includes('email')) return 'email';
+  if (channelType.includes('WebWidget') || channelType.includes('web_widget')) return 'site';
+  if (channelType.includes('Telegram') || channelType.includes('telegram')) return 'telegram';
+  if (channelType.includes('Sms') || channelType.includes('sms')) return 'sms';
+  return null;
 });
 
 const origemConfig = computed(() => {
@@ -88,6 +100,9 @@ const origemConfig = computed(() => {
     'cardapio-digital': { label: 'Cardápio', icon: '📋', bg: 'bg-orange-50', text: 'text-orange-700', border: 'border-orange-200' },
     organico: { label: 'Orgânico', icon: '🌱', bg: 'bg-teal-50', text: 'text-teal-700', border: 'border-teal-200' },
     outro: { label: 'Outro', icon: '📍', bg: 'bg-slate-50', text: 'text-slate-600', border: 'border-slate-200' },
+    email: { label: 'Email', icon: '📧', bg: 'bg-sky-50', text: 'text-sky-700', border: 'border-sky-200' },
+    telegram: { label: 'Telegram', icon: '✈️', bg: 'bg-cyan-50', text: 'text-cyan-700', border: 'border-cyan-200' },
+    sms: { label: 'SMS', icon: '📱', bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200' },
   };
   return map[src] || { label: src.charAt(0).toUpperCase() + src.slice(1), icon: '📍', bg: 'bg-slate-50', text: 'text-slate-600', border: 'border-slate-200' };
 });
