@@ -57,6 +57,41 @@ const lastActivityAt = computed(() => {
   return timestamp ? shortTimestamp(dynamicTime(timestamp)) : '';
 });
 
+// Extrai utm_source/origem do contato ou conversa
+const origemSource = computed(() => {
+  const src =
+    props.contact?.additional_attributes?.utm_source ||
+    props.contact?.custom_attributes?.utm_source ||
+    props.conversation?.additional_attributes?.utm_source ||
+    props.conversation?.custom_attributes?.utm_source ||
+    props.contact?.additional_attributes?.origem ||
+    props.contact?.custom_attributes?.origem ||
+    null;
+  return src ? String(src).toLowerCase().trim() : null;
+});
+
+const origemConfig = computed(() => {
+  const src = origemSource.value;
+  if (!src) return null;
+  const map = {
+    instagram: { label: 'Instagram', icon: '📸', bg: 'bg-pink-50', text: 'text-pink-600', border: 'border-pink-200' },
+    facebook: { label: 'Facebook', icon: '👥', bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' },
+    google: { label: 'Google', icon: '🔍', bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200' },
+    'google-ads': { label: 'Google Ads', icon: '🎯', bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200' },
+    'google-maps': { label: 'Maps', icon: '📍', bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200' },
+    meta: { label: 'Meta Ads', icon: '📊', bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' },
+    'meta-ads': { label: 'Meta Ads', icon: '📊', bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' },
+    ifood: { label: 'iFood', icon: '🍔', bg: 'bg-red-50', text: 'text-red-600', border: 'border-red-200' },
+    site: { label: 'Site', icon: '🌐', bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200' },
+    whatsapp: { label: 'WhatsApp', icon: '💬', bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200' },
+    cardapio: { label: 'Cardápio', icon: '📋', bg: 'bg-orange-50', text: 'text-orange-700', border: 'border-orange-200' },
+    'cardapio-digital': { label: 'Cardápio', icon: '📋', bg: 'bg-orange-50', text: 'text-orange-700', border: 'border-orange-200' },
+    organico: { label: 'Orgânico', icon: '🌱', bg: 'bg-teal-50', text: 'text-teal-700', border: 'border-teal-200' },
+    outro: { label: 'Outro', icon: '📍', bg: 'bg-slate-50', text: 'text-slate-600', border: 'border-slate-200' },
+  };
+  return map[src] || { label: src.charAt(0).toUpperCase() + src.slice(1), icon: '📍', bg: 'bg-slate-50', text: 'text-slate-600', border: 'border-slate-200' };
+});
+
 const showMessagePreviewWithoutMeta = computed(() => {
   const { labels = [] } = props.conversation;
   return (
@@ -99,9 +134,24 @@ const onCardClick = e => {
     />
     <div class="flex flex-col w-full gap-1 min-w-0">
       <div class="flex items-center justify-between h-6 gap-2">
-        <h4 class="text-base font-medium truncate text-n-slate-12">
-          {{ currentContactName }}
-        </h4>
+        <div class="flex items-center gap-2 min-w-0 flex-1">
+          <h4 class="text-base font-medium truncate text-n-slate-12">
+            {{ currentContactName }}
+          </h4>
+          <span
+            v-if="origemConfig"
+            :class="[
+              'flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold border flex-shrink-0',
+              origemConfig.bg,
+              origemConfig.text,
+              origemConfig.border,
+            ]"
+            :title="'Origem: ' + origemConfig.label"
+          >
+            <span>{{ origemConfig.icon }}</span>
+            <span>{{ origemConfig.label }}</span>
+          </span>
+        </div>
         <div class="flex items-center gap-2">
           <CardPriorityIcon :priority="conversation.priority || null" />
           <div
